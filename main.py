@@ -26,7 +26,7 @@ def get_all_products(products: Annotated[str | None, Query()] = None) -> Any:
 
     if products is None or len(products)==0:
         return "Product not available"
-    return {f"This is the page the products: {products.split(',')}"}
+    return {f"The available production: {products.split(',')}"}
 
 # @app.put("/items/{id}")
 # def update_item(id: str, item: Item):
