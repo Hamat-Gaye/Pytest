@@ -28,9 +28,11 @@ class TestClass:
         # assert hasattr(x, "check")  # False
         assert hasattr(x, "__len__")
 
+
 import pytest
 
 from get_percentage import get_pass_percentage
+
 
 @pytest.mark.parametrize("a,b", [
     (5, 1),
@@ -54,18 +56,22 @@ def test_foo_not_implemented():
         foo()
     assert excinfo.type is RuntimeError
 
+
 #Testing an imported function from another file
 def test_get_pass_percentage():
-    val = 50 
+    val = 50
     assert get_pass_percentage(10, 20) == val
+
 
 # Testing for regex expressions in an error message
 def myfunc():
     raise ValueError("Exception 123 raised")
 
+
 def test_match():
     with pytest.raises(ValueError, match=r".* 123 r*."):
         myfunc()
+
 
 # testing two sets with assert
 def test_set_comparison():
@@ -73,8 +79,10 @@ def test_set_comparison():
     set2 = set("8035")
     assert set1 == set2
 
+
 #Testing with parameterization  Which can also be used in a class to apply to all methods in the class
-@pytest.mark.parametrize("test_input,expected", [("3+5", 8), ("2+4", 6), pytest.param("6*9", 15, marks=pytest.mark.xfail)])
+@pytest.mark.parametrize("test_input,expected",
+                         [("3+5", 8), ("2+4", 6), pytest.param("5*4", 15, marks=pytest.mark.xfail)])
 def test_eval(test_input, expected):
     assert eval(test_input) == expected
 
@@ -83,7 +91,3 @@ def test_eval(test_input, expected):
 # @pytest.mark.parametrize("y", [2, 3])
 # def test_foo(x, y):
 #     assert x < y
-
-
-
-
