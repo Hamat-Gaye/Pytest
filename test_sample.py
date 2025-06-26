@@ -1,5 +1,6 @@
 # def func(x):
 #     return x + 1
+from pandas import read_json
 
 
 # def test_func():
@@ -71,6 +72,51 @@ def myfunc():
 def test_match():
     with pytest.raises(ValueError, match=r".* 123 r*."):
         myfunc()
+
+#Fixtures in pytest
+@pytest.fixture()
+def sample_fixture():
+    print("\n_________You are in the fixture____________\n")
+    data = [1, 2, 3, 4, 5]
+    return data
+
+def test_sample_fixture(sample_fixture):
+    values = sample_fixture
+    assert values == [1, 2, 3, 4, 5]
+
+@pytest.mark.xfail(reason = "The return values of the fixtures cannot be accessed if we use the @pytest.mark.usefixtures decorator")
+@pytest.mark.usefixtures("sample_fixture")
+def test_use_fixtures():
+    print("This test uses the sample_fixture without explicitly passing it as an argument.")
+    assert sample_fixture == [1, 2, 3, 4, 5]
+
+weekdays1 = ["mon", "tue", "wed"]
+weekdays2 = ["fri", "sat", "sun"]
+
+@pytest.fixture()
+def setup01():
+    wk1 = weekdays1.copy()
+    wk1.append("thur")
+    yield wk1
+    print("\n\n After yield in the function\n")
+    wk1.clear()
+    # wk1.pop()
+
+@pytest.fixture()
+def setup02():
+    wk2 = weekdays2.copy()
+    wk2.insert(0, "thur")
+    yield wk2
+
+class TestFixtures:
+    def test_extendList(self, setup01):
+        setup01.extend(weekdays2)
+        assert setup01 == ["mon", "tue", "wed", "thur", "fri", "sat", "sun"]
+
+
+    def test_len(self, setup01, setup02):
+        assert len(weekdays1 + setup02) == len(setup01 + weekdays2)
+
 
 
 # testing two sets with assert
