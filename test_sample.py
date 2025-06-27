@@ -74,6 +74,16 @@ def test_match():
         myfunc()
 
 #Fixtures in pytest
+@pytest.fixture(params=[1,2,3,4,5])
+def test_fixture_param(request):
+    return request.param
+
+
+def test_params_from_fixture(test_fixture_param):
+        my_list = [1, 2, 3, 4, 5]
+        assert test_fixture_param in my_list, f"{test_fixture_param} is not in {my_list}"
+
+
 @pytest.fixture()
 def sample_fixture():
     print("\n_________You are in the fixture____________\n")
@@ -119,14 +129,14 @@ class TestFixtures:
 
 
 
-# testing two sets with assert
+# testing two sets by using assert
 def test_set_comparison():
     set1 = set("1308")
     set2 = set("8035")
     assert set1 == set2
 
 
-#Testing with parameterization  Which can also be used in a class to apply to all methods in the class
+#Testing with parameterization which can also be used in a class to apply to all methods in the class
 @pytest.mark.parametrize("test_input,expected",
                          [("3+5", 8), ("2+4", 6), pytest.param("5*4", 15, marks=pytest.mark.xfail)])
 def test_eval(test_input, expected):
