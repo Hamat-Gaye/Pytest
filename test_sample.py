@@ -74,7 +74,7 @@ def test_match():
         myfunc()
 
 #Fixtures in pytest
-@pytest.fixture(params=[1,2,3,4,5])
+@pytest.fixture(params=[1, 2, 3, 4, 5])
 def test_fixture_param(request):
     return request.param
 
@@ -88,7 +88,7 @@ def test_params_from_fixture(test_fixture_param):
 def sample_fixture():
     print("\n_________You are in the fixture____________\n")
     data = [1, 2, 3, 4, 5]
-    return data
+    yield data
 
 def test_sample_fixture(sample_fixture):
     values = sample_fixture
